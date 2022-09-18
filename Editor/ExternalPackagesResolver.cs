@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Xml;
 using UnityEditor;
@@ -20,7 +21,6 @@ namespace ScreenRecordingUnitySDK
         [MenuItem("ScreenRecordingSDK/Android/ResolveAndroidManifest")]
         public static void ResolveAndroidManifest()
         {
-            Debug.Log(GetPackagePath());
             CheckAndFixManifest();
         }
 
@@ -43,7 +43,6 @@ namespace ScreenRecordingUnitySDK
             var outputFile = Path.Combine(Application.dataPath, "Plugins/Android", ANDROIDMANIFEST_NAME_FILE);
             if (!File.Exists(outputFile))
             {
-                //Debug.LogError ( "There is no Manifest file found at Assets/Plugins/Android/" );
                 CloneAndroidFile(ANDROIDMANIFEST_NAME_FILE);
                 return;
             }
@@ -109,12 +108,13 @@ namespace ScreenRecordingUnitySDK
                 Debug.Log("Error: " + listRequest.Error.message);
                 return "";
             }
-
+            var text = new StringBuilder("Packages:\n");
             var packages = listRequest.Result;
             foreach (var package in packages)
             {
-                if (package.source == PackageSource.Registry)
+                if (package.source == PackageSource.Git)
                 {
+                    text.AppendLine($"{package.name}: {package.version} [{package.resolvedPath}]");
                     if (package.name == PACKAGE_NAME)
                     {
                         Debug.Log("Path " + package.resolvedPath);
