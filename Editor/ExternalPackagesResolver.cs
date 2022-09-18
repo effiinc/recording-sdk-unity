@@ -3,11 +3,14 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using UnityEditor;
+#if UNITY_ANDROID && UNITY_EDITOR
 using UnityEditor.PackageManager;
+#endif
 using UnityEngine;
 
 namespace ScreenRecordingUnitySDK
 {
+#if UNITY_ANDROID && UNITY_EDITOR
     public class ExternalPackagesResolver : Editor
     {
         private static string unityNativeActivityName = "com.unity3d.player.UnityPlayerActivity";
@@ -161,4 +164,5 @@ namespace ScreenRecordingUnitySDK
             return null;
         }
     }
+#endif
 }
