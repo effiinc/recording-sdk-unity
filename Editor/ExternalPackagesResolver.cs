@@ -13,6 +13,7 @@ namespace ScreenRecordingUnitySDK
 #if UNITY_ANDROID && UNITY_EDITOR
     public class ExternalPackagesResolver : Editor
     {
+
         private static string unityNativeActivityName = "com.unity3d.player.UnityPlayerActivity";
         private static string unityPluginActivityName = "com.effi.uactivity.PluginActivity";
 
@@ -21,19 +22,19 @@ namespace ScreenRecordingUnitySDK
         private static string BASE_GRADLE_FILE = "baseProjectTemplate.gradle";
         private static string LAUNCHER_GRADLE_FILE = "launcherTemplate.gradle";
 
-        [MenuItem("ScreenRecordingSDK/Android/ResolveAndroidManifest")]
+        [MenuItem("Effi/ScreenRecordingSDK/ResolveAndroidManifest")]
         public static void ResolveAndroidManifest()
         {
             CheckAndFixManifest();
         }
 
-        [MenuItem("ScreenRecordingSDK/Android/Rewrite BaseGradle")]
+        [MenuItem("Effi/ScreenRecordingSDK/Add BaseGradle")]
         public static void RewriteBaseGradle()
         {
             CloneAndroidFile(BASE_GRADLE_FILE);
         }
 
-        [MenuItem("ScreenRecordingSDK/Android/Rewrite LauncherGradle")]
+        [MenuItem("Effi/ScreenRecordingSDK/Add LauncherGradle")]
         public static void RewriteLauncherGradle()
         {
             CloneAndroidFile(LAUNCHER_GRADLE_FILE);
@@ -42,7 +43,6 @@ namespace ScreenRecordingUnitySDK
 
         private static void CheckAndFixManifest()
         {
-#if UNITY_ANDROID
             var outputFile = Path.Combine(Application.dataPath, "Plugins/Android", ANDROIDMANIFEST_NAME_FILE);
             if (!File.Exists(outputFile))
             {
@@ -88,47 +88,15 @@ namespace ScreenRecordingUnitySDK
             }
 
             doc.Save(outputFile);
-#endif
         }
 
         private static void CloneAndroidFile(string fileName, bool overwrite = false)
         {
-            var packagePath = GetPackagePath();
+            var packagePath = ExternalPackagesTools.GetPackagePath(PACKAGE_NAME);
             var targetFile = Path.Combine(packagePath, "Editor/Plugins/Android", fileName);
             var destination = Path.Combine(Application.dataPath, "Plugins/Android", fileName);
             File.Copy(targetFile, destination, overwrite);
         }
-
-
-        private static string GetPackagePath()
-        {
-            var listRequest = Client.List(true);
-            while (!listRequest.IsCompleted)
-                Thread.Sleep(100);
-
-            if (listRequest.Error != null)
-            {
-                Debug.Log("Error: " + listRequest.Error.message);
-                return "";
-            }
-            var text = new StringBuilder("Packages:\n");
-            var packages = listRequest.Result;
-            foreach (var package in packages)
-            {
-                if (package.source == PackageSource.Git)
-                {
-                    text.AppendLine($"{package.name}: {package.version} [{package.resolvedPath}]");
-                    if (package.name == PACKAGE_NAME)
-                    {
-                        Debug.Log("Path " + package.resolvedPath);
-                        return package.resolvedPath;
-                    }
-                }
-            }
-
-            return "";
-        }
-
 
         private static XmlNode FindChildNode(XmlNode parent, string name)
         {
@@ -163,6 +131,7 @@ namespace ScreenRecordingUnitySDK
 
             return null;
         }
+
     }
 #endif
 }

@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ScreenRecordingUnitySDK.IOS
+namespace ScreenRecordingUnitySDK
 {
-    public  class ScreenRecordingInterface
+    public  class ScreenRecordingIOSInterface
     {
         private static string TOKEN = "3HDb5Di9WowKc28mT5tJoOWvsFW0BoFtwIwE";
 
