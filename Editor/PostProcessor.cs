@@ -3,6 +3,8 @@ using System.IO;
 #if UNITY_IOS && UNITY_EDITOR
 using UnityEditor.Callbacks;
 using UnityEditor;
+using UnityEngine;
+
 #endif
 
 namespace ScreenRecordingUnitySDK
@@ -32,6 +34,16 @@ namespace ScreenRecordingUnitySDK
             string podfileLock = Path.Combine(packagePath, "Pods/Podfile.lock"); //Package path
             string destPodFile = path + "/Podfile";
             string destPodLockfile = path + "/Podfile.lock";
+
+            //Change for SDK Unity project
+            if (!File.Exists(podfile) || !File.Exists(podfile))
+            {
+                packagePath = Path.Combine(Application.dataPath, "ScreenRecordingSDK");
+                podfile = Path.Combine(packagePath, "Pods/Podfile");
+                podfileLock = Path.Combine(packagePath, "Pods/Podfile.lock");
+                
+            }
+
             if (!System.IO.File.Exists(destPodFile))
             {
                 FileUtil.CopyFileOrDirectory(podfile, destPodFile);

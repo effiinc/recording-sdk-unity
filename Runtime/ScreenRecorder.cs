@@ -5,14 +5,20 @@ namespace ScreenRecordingUnitySDK
 {
     public class ScreenRecorder : MonoBehaviour
     {
-        public void Start()
+        public void Awake()
         {
             InitAndStartRecording();
         }
 
-        public void InitAndStartRecording()
+        private void InitAndStartRecording()
         {
             ScreenRecordingSDK.InitializeRecorder();
         }
+
+        public void LogEvent(string eventType, string eventData)
+        {
+            ScreenRecordingSDK.LogEvent(eventType, eventData);
+        }
+
     }
 }
