@@ -19,8 +19,8 @@ namespace ScreenRecordingUnitySDK
 
         private static string PACKAGE_NAME = "recording-sdk-unity";
         private static string ANDROIDMANIFEST_NAME_FILE = "AndroidManifest.xml";
-        private static string BASE_GRADLE_FILE = "baseProjectTemplate.gradle";
-        private static string LAUNCHER_GRADLE_FILE = "launcherTemplate.gradle";
+        //private static string BASE_GRADLE_FILE = "baseProjectTemplate.gradle";
+        //private static string LAUNCHER_GRADLE_FILE = "launcherTemplate.gradle";
         private static string _internalMessage;
         
         [MenuItem("Effi/ScreenRecordingSDK/ResolveAndroidManifest")]
