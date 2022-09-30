@@ -11,7 +11,7 @@ using UnityEngine;
 namespace ScreenRecordingUnitySDK
 {
 #if UNITY_ANDROID && UNITY_EDITOR
-    public class ExternalPackagesResolver : Editor
+    public class ExternalPackagesResolver : EditorWindow
     {
 
         private static string unityNativeActivityName = "com.unity3d.player.UnityPlayerActivity";
@@ -21,25 +21,13 @@ namespace ScreenRecordingUnitySDK
         private static string ANDROIDMANIFEST_NAME_FILE = "AndroidManifest.xml";
         private static string BASE_GRADLE_FILE = "baseProjectTemplate.gradle";
         private static string LAUNCHER_GRADLE_FILE = "launcherTemplate.gradle";
-
+        private static string _internalMessage;
+        
         [MenuItem("Effi/ScreenRecordingSDK/ResolveAndroidManifest")]
         public static void ResolveAndroidManifest()
         {
             CheckAndFixManifest();
         }
-
-        [MenuItem("Effi/ScreenRecordingSDK/Add BaseGradle")]
-        public static void RewriteBaseGradle()
-        {
-            CloneAndroidFile(BASE_GRADLE_FILE);
-        }
-
-        [MenuItem("Effi/ScreenRecordingSDK/Add LauncherGradle")]
-        public static void RewriteLauncherGradle()
-        {
-            CloneAndroidFile(LAUNCHER_GRADLE_FILE);
-        }
-
 
         private static void CheckAndFixManifest()
         {
@@ -56,6 +44,7 @@ namespace ScreenRecordingUnitySDK
             if (doc == null)
             {
                 Debug.LogError("Couldn't load " + outputFile);
+                ShowMessage("The Android Manifest Resolver could not complete the process successfully. See the console for details!");
                 return;
             }
 
@@ -66,6 +55,7 @@ namespace ScreenRecordingUnitySDK
 
             if (application_node == null)
             {
+                ShowMessage("The Android Manifest Resolver could not complete the process successfully. See the console for details!");
                 Debug.LogError("Error parsing " + outputFile);
                 return;
             }
@@ -74,6 +64,7 @@ namespace ScreenRecordingUnitySDK
                 FindElementWithAndroidName("activity", "name", ns, unityNativeActivityName, application_node);
             if (main_activity == null)
             {
+                ShowMessage("The Android Manifest is already fixed!");
                 return;
             }
 
@@ -88,14 +79,34 @@ namespace ScreenRecordingUnitySDK
             }
 
             doc.Save(outputFile);
+            if (File.Exists(outputFile))
+            {
+                ShowMessage("Android manifest resolved successfully!");
+            }
+            else
+            {
+                ShowMessage("The Android Manifest Resolver could not complete the process successfully. See the console for details!");
+            }
         }
 
         private static void CloneAndroidFile(string fileName, bool overwrite = false)
         {
             var packagePath = ExternalPackagesTools.GetPackagePath(PACKAGE_NAME);
+            if (string.IsNullOrEmpty(packagePath))
+            {
+                packagePath = Path.Combine(Application.dataPath, "ScreenRecordingSDK");
+            }
             var targetFile = Path.Combine(packagePath, "Editor/Plugins/Android", fileName);
             var destination = Path.Combine(Application.dataPath, "Plugins/Android", fileName);
             File.Copy(targetFile, destination, overwrite);
+            if (File.Exists(destination))
+            {
+                ShowMessage("Android manifest resolved successfully!");
+            }
+            else
+            {
+                ShowMessage("The Android Manifest Resolver could not complete the process successfully. See the console for details!");
+            }
         }
 
         private static XmlNode FindChildNode(XmlNode parent, string name)
@@ -130,6 +141,22 @@ namespace ScreenRecordingUnitySDK
             }
 
             return null;
+        }
+        
+        private static void ShowMessage(string message)
+        {
+            _internalMessage = message;
+            ExternalPackagesResolver window = ScriptableObject.CreateInstance<ExternalPackagesResolver>();
+            window.position = new Rect(100, 100, 250, 150);
+            window.ShowPopup();
+        }
+        
+        private void OnGUI()
+        {
+            GUILayout.Space(20);
+            EditorGUILayout.LabelField(_internalMessage, EditorStyles.wordWrappedLabel);
+            GUILayout.Space(50);
+            if (GUILayout.Button("Ok")) this.Close();
         }
 
     }

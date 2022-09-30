@@ -1,0 +1,15 @@
+<dependencies>
+  <iosPods>
+    <iosPod name="" minTargetSdk="13.0">
+    </iosPod>
+  </iosPods>
+  <androidPackages>
+    
+    <androidPackage spec="com.effi.io:screen-recorder:0.1.20">
+      <repositories>
+        <repository>https://effi.jfrog.io/artifactory/effi-screen-recorder</repository>
+      </repositories>
+    </androidPackage>
+    
+  </androidPackages>
+</dependencies>
