@@ -1,7 +1,7 @@
 {
 	"name": "recording-sdk-unity",
 	"displayName": "Screen Recording SDK",
-	"version": "0.4.9",
+	"version": "0.5.0",
 	"unity": "2021.2",
 	"author": "Effi",
 	"description": "Screen recording plugin",
