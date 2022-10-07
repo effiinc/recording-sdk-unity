@@ -5,7 +5,7 @@
   </iosPods>
   <androidPackages>
     
-    <androidPackage spec="com.effi.io:screen-recorder:0.1.38">
+    <androidPackage spec="com.effi.io:screen-recorder:0.2.2">
       <repositories>
         <repository>https://effi.jfrog.io/artifactory/effi-screen-recorder</repository>
       </repositories>
