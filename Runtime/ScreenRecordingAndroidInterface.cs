@@ -8,14 +8,26 @@ namespace ScreenRecordingUnitySDK
 {
     public static class ScreenRecordingAndroidInterface
     {
-        private static AndroidJavaClass unityClass;
-        private static AndroidJavaObject unityActivity;
+        private static string ACTIVITY_CLASS_NAME = "com.effi.uactivity.PluginActivity";
+        
         private static AndroidJavaObject _pluginInstance;
 
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR
-        public static void InitializeRecorder()
+        public static void InitializeRecorder(string token, string appVersion)
         {
-            InitializePlugin("com.effi.uactivity.PluginActivity");
+            _pluginInstance = new AndroidJavaObject(ACTIVITY_CLASS_NAME);
+            if (_pluginInstance != null)
+            {
+                _pluginInstance.Call("InitAndStartRecording", token, appVersion);
+            }
+        }
+
+        public static void LogEvent(string type, string data)
+        {
+            if (_pluginInstance != null)
+            {
+                _pluginInstance.Call("SendEvent", type, data);
+            } 
         }
 
         private static void InitializePlugin(string pluginName)
@@ -26,6 +38,8 @@ namespace ScreenRecordingUnitySDK
                 Debug.LogError("Plugin Instance ERROR");
             }
         }
+        
+        
 #endif
     }
 }

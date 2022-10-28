@@ -1,6 +1,4 @@
 using System.IO;
-using System.Text;
-using System.Threading;
 using System.Xml;
 using UnityEditor;
 #if UNITY_ANDROID && UNITY_EDITOR
@@ -10,7 +8,7 @@ using UnityEngine;
 
 namespace ScreenRecordingUnitySDK
 {
-#if UNITY_ANDROID && UNITY_EDITOR
+#if UNITY_EDITOR
     public class ExternalPackagesResolver : EditorWindow
     {
 
@@ -19,15 +17,15 @@ namespace ScreenRecordingUnitySDK
 
         private static string PACKAGE_NAME = "recording-sdk-unity";
         private static string ANDROIDMANIFEST_NAME_FILE = "AndroidManifest.xml";
-        //private static string BASE_GRADLE_FILE = "baseProjectTemplate.gradle";
-        //private static string LAUNCHER_GRADLE_FILE = "launcherTemplate.gradle";
         private static string _internalMessage;
         
-        [MenuItem("Effi/ScreenRecordingSDK/ResolveAndroidManifest")]
+#if UNITY_ANDROID 
+        [MenuItem("Effi/ScreenRecordingSDK/Resolve Android Manifest")]
         public static void ResolveAndroidManifest()
         {
             CheckAndFixManifest();
         }
+#endif
 
         private static void CheckAndFixManifest()
         {
