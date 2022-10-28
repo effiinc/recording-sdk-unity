@@ -15,8 +15,6 @@ namespace ScreenRecordingUnitySDK
             
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR 
             ScreenRecordingAndroidInterface.InitializeRecorder(TOKEN, appVersion);
-#else
-            Debug.LogError("ScreenRecordingSDK: Editor does not supported yet!");
 #endif
         }
         
@@ -28,8 +26,6 @@ namespace ScreenRecordingUnitySDK
             
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR
             ScreenRecordingAndroidInterface.LogEvent(eventType, eventData);
-#else
-            Debug.LogError("ScreenRecordingSDK: Editor does not supported yet!");
 #endif
         }
     }
