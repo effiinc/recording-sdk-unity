@@ -37,7 +37,7 @@
         Patch gradleTemplate.properties = true 
 - #### Resolve AndroidManifest
   - Go to the menu `Effi->ScreenRecordingSDK` and select `ResolveAndroidManifest`
-  - Go to Assets->External Dependency Manager->AndroidResolver and select Resolve
+  - Go to `Assets->External Dependency Manager->AndroidResolver` and select `Resolve`
 
 
 
