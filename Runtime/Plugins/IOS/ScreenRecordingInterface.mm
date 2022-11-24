@@ -16,9 +16,10 @@ NSString* MakeNSString (const char* string) {
     }
 }
 
-    void _initializeRecorder(const char* token) {
+    void _initializeRecorder(const char* token, const char* version) {
         NSString *nsToken = MakeNSString(token);
-        _screenRecordingManager = [[ScreenRecordingManager alloc] initWithToken:nsToken appInfo:@"UnityProject v0.4.2"];
+        NSString *nsVersion = MakeNSString(version);
+        _screenRecordingManager = [[ScreenRecordingManager alloc] initWithToken:nsToken appInfo:nsVersion];
     }
 
    void _logEvent(const char* eventType, const char* eventData){

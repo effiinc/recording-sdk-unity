@@ -8,12 +8,12 @@ namespace ScreenRecordingUnitySDK
     {
 #if (UNITY_IOS || PLATFORM_IOS) && !UNITY_EDITOR
         [DllImport("__Internal")]
-        private static extern void _initializeRecorder(string token);
+        private static extern void _initializeRecorder(string token, string version);
         [DllImport("__Internal")]
         private static extern void _logEvent(string eventType, string eventData);
-        public static void InitializeRecorder(string token)
+        public static void InitializeRecorder(string token, string version)
         {
-            _initializeRecorder(token);
+            _initializeRecorder(token, version);
         }
         
         public static void LogEvent(string eventType, string eventData)

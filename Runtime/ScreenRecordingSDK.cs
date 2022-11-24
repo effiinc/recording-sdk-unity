@@ -10,7 +10,7 @@ namespace ScreenRecordingUnitySDK
         {
             var appVersion = Application.version.ToString();
 #if (UNITY_IOS || PLATFORM_IOS) && !UNITY_EDITOR
-             ScreenRecordingIOSInterface.InitializeRecorder(TOKEN);
+             ScreenRecordingIOSInterface.InitializeRecorder(TOKEN, appVersion);
 #endif
             
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR 
