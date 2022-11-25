@@ -3,6 +3,7 @@ using System.IO;
 #if UNITY_IOS && UNITY_EDITOR
 using UnityEditor.Callbacks;
 using UnityEditor;
+using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 #endif
@@ -22,7 +23,35 @@ namespace ScreenRecordingUnitySDK
             if (target == iOSBuildTarget)
             {
                 RunPodUpdate(pathToBuiltProject);
+                
+                string projectPath =  pathToBuiltProject + "/Unity-iPhone.xcodeproj/project.pbxproj";
+
+
+                PBXProject pbxProject = new PBXProject();
+                pbxProject.ReadFromFile(projectPath);
+
+
+                //Disabling Bitcode on all targets
+
+
+                //Main
+                string targetGuid = pbxProject.GetUnityMainTargetGuid();
+                pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+
+
+                //Unity Tests
+                targetGuid = pbxProject.TargetGuidByName(PBXProject.GetUnityTestTargetName());
+                pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+
+
+                //Unity Framework
+                targetGuid = pbxProject.GetUnityFrameworkTargetGuid();
+                pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+
+
+                pbxProject.WriteToFile(projectPath);
             }
+            
         }
 
         static void RunPodUpdate(string path)
