@@ -9,7 +9,6 @@ namespace ScreenRecordingUnitySDK
     public static class ScreenRecordingAndroidInterface
     {
         private static string ACTIVITY_CLASS_NAME = "com.effi.uactivity.PluginActivity";
-        
         private static AndroidJavaObject _pluginInstance;
 
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR
@@ -38,8 +37,8 @@ namespace ScreenRecordingUnitySDK
                 Debug.LogError("Plugin Instance ERROR");
             }
         }
-        
-        
+
+
 #endif
     }
 }

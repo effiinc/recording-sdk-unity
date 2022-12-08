@@ -17,9 +17,9 @@ namespace ScreenRecordingUnitySDK
             string podPath = ExecuteCommand("which", "pod", null);
             if (podPath.Equals(""))
             {
-                
                 throw new Exception("pod executable not found");
             }
+
             return ExecuteCommand(podPath.Trim(), "update", projDir);
         }
 
@@ -35,9 +35,10 @@ namespace ScreenRecordingUnitySDK
             {
                 throw new Exception("pod executable not found");
             }
+
             return ExecuteCommand(podPath.Trim(), "install", projDir);
         }
-        
+
         private static string ExecuteCommand(string command, string argument, string workingDir)
         {
             using (var process = new Process())
@@ -48,7 +49,7 @@ namespace ScreenRecordingUnitySDK
                 }
 
                 string path = process.StartInfo.EnvironmentVariables["PATH"];
-                if(!path.Contains("/usr/local/bin"))
+                if (!path.Contains("/usr/local/bin"))
                 {
                     path = path + ":/usr/local/bin";
                     process.StartInfo.EnvironmentVariables.Remove("PATH");
@@ -59,10 +60,11 @@ namespace ScreenRecordingUnitySDK
                 {
                     process.StartInfo.WorkingDirectory = workingDir;
                 }
+
                 process.StartInfo.FileName = command;
                 process.StartInfo.Arguments = argument;
                 UnityEngine.Debug.Log("Executing " + command + " argument: " +
-                    process.StartInfo.Arguments);
+                                      process.StartInfo.Arguments);
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.StartInfo.UseShellExecute = false;
@@ -90,7 +92,6 @@ namespace ScreenRecordingUnitySDK
 
                     Debug.Log("TAG Pod process start");
                     return stdOutput;
-
                 }
                 catch (Exception e)
                 {
