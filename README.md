@@ -97,7 +97,6 @@ The `ScreenRecorder.cs` class initializes the plugin in the `Awake` method, if y
 
 - Open `Unity Package Manager`
 - Select `ScreenRecordingSDK` and click the `Update` button
-- Go to `Assets->External Dependency Manager->AndroidResolver` and select `Resolve`
 - Go to the menu `Effi->ScreenRecordingSDK` and select `ResolveAndroidManifest`
 ## Authors
 
