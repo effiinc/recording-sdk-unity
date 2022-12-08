@@ -24,20 +24,51 @@
 
 - #### Resolve Android dependencies:
 
-  **EMD(External Dependency Manager)** is used to add android dependencies, see more information about the plugin [Here](https://github.com/googlesamples/unity-jar-resolver).
-  After importing the package, go to the `Assets->External Dependency Manager->AndroidResolver->Settings` and set the next values to the properties:
+  **Gradle** 
+    - Open the `gradleTemplate.properties`, and paste the following code at the end of the file:
+    ```
+    android.useAndroidX=true
+    android.enableJetifier=true
+    ```
+    - Open the `mainTemplate.gradle` file, and insert the following code at the beginning:
+    
+    ```
+    ([rootProject] + (rootProject.subprojects as List)).each { project ->
+    project.repositories {
+            def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
+            maven {
+             url "https://maven.google.com"
+            }
+            maven {
+            url "https://effi.jfrog.io/artifactory/effi-screen-recorder"
+            }
+            mavenLocal()
+           mavenCentral()
+        }
+    }
+    ```
+    - Insert the following code into the dependencies section:
+    ```
+    implementation 'com.effi.io:screen-recorder:0.2.11'
+    ```
+    - Insert the following code under the dependencies section:
+    ```
+    android {
+        packagingOptions {
+            exclude ('/lib/arm64-v8a/*' + '*')
+            exclude ('/lib/armeabi/*' + '*')
+            exclude ('/lib/mips/*' + '*')
+            exclude ('/lib/mips64/*' + '*')
+            exclude ('/lib/x86/*' + '*')
+            exclude ('/lib/x86_64/*' + '*')
+        }
+    }
+    ```
 
-        Use Gradle Daemon = true
-        Enable Resolution On Build = true
-        Install Android Packages = false
-        Explode AARs = false
-        Patch AndroidManifest.xml = false
-        Patch mainTemplate.gradle = true
-        Use Jetifier = true
-        Patch gradleTemplate.properties = true 
+
 - #### Resolve AndroidManifest
   - Go to the menu `Effi->ScreenRecordingSDK` and select `ResolveAndroidManifest`
-  - Go to `Assets->External Dependency Manager->AndroidResolver` and select `Resolve`
+  - Go to Assets->External Dependency Manager->AndroidResolver and select Resolve
 
 
 
