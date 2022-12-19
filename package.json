@@ -2,7 +2,7 @@
 	"name": "recording-sdk-unity",
 	"displayName": "Screen Recording SDK",
 	"version": "0.6.2",
-	"unity": "2021.2",
+	"unity": "2020.3",
 	"author": "Effi",
 	"description": "Screen recording plugin",
 	"dependencies": {
@@ -10,6 +10,5 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/effiinc/recording-sdk-unity.git"
-	},
-	
+	}
 }
