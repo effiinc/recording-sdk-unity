@@ -21,6 +21,14 @@ namespace ScreenRecordingUnitySDK
             }
         }
 
+        public static void SetUserId(string userID)
+        {
+            if (_pluginInstance != null)
+            {
+                _pluginInstance.Call("SetUserId", userID);
+            } 
+        }
+        
         public static void LogEvent(string type, string data)
         {
             if (_pluginInstance != null)

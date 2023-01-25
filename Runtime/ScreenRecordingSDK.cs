@@ -18,6 +18,17 @@ namespace ScreenRecordingUnitySDK
 #endif
         }
         
+        public static void SetUserId(string userId)
+        {
+#if (UNITY_IOS || PLATFORM_IOS) && !UNITY_EDITOR
+            // ScreenRecordingIOSInterface.SetUserId(userId);
+#endif
+            
+#if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR
+            ScreenRecordingAndroidInterface.SetUserId(userId);
+#endif
+        }
+        
         public static void LogEvent(string eventType, string eventData)
         {
 #if (UNITY_IOS || PLATFORM_IOS) && !UNITY_EDITOR

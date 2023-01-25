@@ -15,6 +15,11 @@ namespace ScreenRecordingUnitySDK
             ScreenRecordingSDK.InitializeRecorder();
         }
 
+        public void SetUserId(string id)
+        {
+            ScreenRecordingSDK.SetUserId(id);
+        }
+
         public void LogEvent(string eventType, string eventData)
         {
             ScreenRecordingSDK.LogEvent(eventType, eventData);
