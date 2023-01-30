@@ -18,14 +18,14 @@ end
 
 target 'UnityFramework' do
 
-pod 'ScreenRecordingSDK'
+pod 'ScreenRecordingSDK', '0.4.6-beta.1'
+
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for UnityFramework
 
 end
-
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

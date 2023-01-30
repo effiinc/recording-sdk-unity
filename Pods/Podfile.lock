@@ -5,14 +5,14 @@ PODS:
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
-  - ScreenRecordingSDK (0.4.4):
+  - ScreenRecordingSDK (0.4.6-beta.1):
     - ffmpeg-kit-ios-full (= 4.5.1)
     - Moya
     - ShowTime
   - ShowTime (2.5.3)
 
 DEPENDENCIES:
-  - ScreenRecordingSDK
+  - ScreenRecordingSDK (= 0.4.6-beta.1)
 
 SPEC REPOS:
   trunk:
@@ -26,9 +26,9 @@ SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   ffmpeg-kit-ios-full: 1e918caa885a00501ec1606c68a874d07d681705
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  ScreenRecordingSDK: fdc52d940d5727d43de25840ceda15b3bcdcfdd6
+  ScreenRecordingSDK: e3604e3a74c212deb63c0554510dbcfd9674a57b
   ShowTime: 06cc9dc79886274b21041fe19b79c9eff59b9714
 
-PODFILE CHECKSUM: fed7897e31c53ede769f8b4de365cf14911b70ff
+PODFILE CHECKSUM: cb904de4fad41b8771e3ce9c6aca1c62cb841b01
 
 COCOAPODS: 1.11.3

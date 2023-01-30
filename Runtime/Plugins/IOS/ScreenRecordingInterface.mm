@@ -16,11 +16,12 @@ NSString* MakeNSString (const char* string) {
     }
 }
 
-    void _initializeRecorder(const char* token, const char* version) {
-        NSString *nsToken = MakeNSString(token);
-        NSString *nsVersion = MakeNSString(version);
-        _screenRecordingManager = [[ScreenRecordingManager alloc] initWithToken:nsToken appInfo:nsVersion];
-    }
+void _initializeRecorder(const char* token, const char* appInfo, const char* userId) {
+    NSString *nsToken = MakeNSString(token);
+    NSString *nsAppInfo = MakeNSString(appInfo);
+    NSString *nsUserId = MakeNSString(userId);
+    _screenRecordingManager = [[ScreenRecordingManager alloc] initWithToken:nsToken appInfo:nsAppInfo userId:nsUserId enableRecording: YES];
+}
 
    void _logEvent(const char* eventType, const char* eventData){
        NSString *nsEventType = MakeNSString(eventType);
