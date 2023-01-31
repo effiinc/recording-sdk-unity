@@ -4,11 +4,11 @@ namespace ScreenRecordingUnitySDK
 {
     public static class ScreenRecordingSDK
     {
-        public static void InitializeRecorder(string TOKEN, string appVersion, string userID)
+        public static void InitializeRecorder(string TOKEN, string appVersion, string userID, bool isEnable)
         {
             
 #if (UNITY_IOS || PLATFORM_IOS) && !UNITY_EDITOR
-             ScreenRecordingIOSInterface.InitializeRecorder(TOKEN, appVersion, userID);
+             ScreenRecordingIOSInterface.InitializeRecorder(TOKEN, appVersion, userID, isEnable);
 #endif
             
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR 
