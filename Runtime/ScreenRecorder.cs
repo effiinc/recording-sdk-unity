@@ -4,7 +4,7 @@ namespace ScreenRecordingUnitySDK
 {
     public class ScreenRecorder : MonoBehaviour
     {
-        [SerializeField] private bool isEnable = true;    
+        [SerializeField] private bool enableRecorder = true;    
         private static string TOKEN = "3HDb5Di9WowKc28mT5tJoOWvsFW0BoFtwIwE";
         private static string USER_ID = "Unity_UserID: ad4a6f928d6b";
         
@@ -16,7 +16,7 @@ namespace ScreenRecordingUnitySDK
         private void InitAndStartRecording()
         {
             var appVersion = Application.version.ToString();
-            ScreenRecordingSDK.InitializeRecorder(TOKEN, appVersion, USER_ID, isEnable);
+            ScreenRecordingSDK.InitializeRecorder(TOKEN, appVersion, USER_ID, enableRecorder);
         }
 
         public void SetUserId(string id)
