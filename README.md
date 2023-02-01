@@ -1,5 +1,5 @@
 
-# Unity Screen recording SDK v0.6.6
+# Unity Screen recording SDK v0.6.7
 
 
 
