@@ -1,6 +1,6 @@
 <dependencies>
   <iosPods>
-    <iosPod name="" minTargetSdk="13.0">
+    <iosPod name="ScreenRecordingSDK" version="0.4.6-beta.1" minTargetSdk="13.0">
     </iosPod>
   </iosPods>
   <androidPackages>

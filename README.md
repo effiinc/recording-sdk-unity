@@ -1,5 +1,5 @@
 
-# Unity Screen recording SDK v0.6.3
+# Unity Screen recording SDK v0.6.7
 
 
 
@@ -49,7 +49,7 @@
     ```
     - Insert the following code into the dependencies section:
     ```
-    implementation 'com.effi.io:screen-recorder:0.2.11'
+    implementation 'com.effi.io:screen-recorder:0.2.12'
     ```
     - Insert the following code under the dependencies section:
     ```

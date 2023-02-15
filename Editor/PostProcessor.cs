@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 #if UNITY_IOS && UNITY_EDITOR
 using UnityEditor.Callbacks;
 using UnityEditor;
@@ -14,8 +16,8 @@ namespace ScreenRecordingUnitySDK
     public class Postprocessor
     {
         private static readonly string PACKAGE_NAME = "recording-sdk-unity";
-        
-        [PostProcessBuildAttribute(1)]
+
+        [PostProcessBuildAttribute(1000)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
             BuildTarget iOSBuildTarget;
@@ -23,8 +25,8 @@ namespace ScreenRecordingUnitySDK
             if (target == iOSBuildTarget)
             {
                 RunPodUpdate(pathToBuiltProject);
-                
-                string projectPath =  pathToBuiltProject + "/Unity-iPhone.xcodeproj/project.pbxproj";
+
+                string projectPath = pathToBuiltProject + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
 
                 PBXProject pbxProject = new PBXProject();
@@ -51,7 +53,6 @@ namespace ScreenRecordingUnitySDK
 
                 pbxProject.WriteToFile(projectPath);
             }
-            
         }
 
         static void RunPodUpdate(string path)
@@ -64,19 +65,30 @@ namespace ScreenRecordingUnitySDK
             string destPodFile = path + "/Podfile";
             string destPodLockfile = path + "/Podfile.lock";
 
-            //Change for SDK Unity project
             if (!File.Exists(podfile) || !File.Exists(podfile))
             {
                 packagePath = Path.Combine(Application.dataPath, "ScreenRecordingSDK");
                 podfile = Path.Combine(packagePath, "Pods/Podfile");
-                podfileLock = Path.Combine(packagePath, "Pods/Podfile.lock");
-                
+                //  podfileLock = Path.Combine(packagePath, "Pods/Podfile.lock");
             }
 
-            if (!System.IO.File.Exists(destPodFile))
+            if (File.Exists(destPodFile))
             {
-                FileUtil.CopyFileOrDirectory(podfile, destPodFile);
-                FileUtil.CopyFileOrDirectory(podfileLock, destPodLockfile);
+                string[] existingPodFileContent = File.ReadAllLines(destPodFile);
+                string[] pluginPodFileContent = File.ReadAllLines(podfile);
+                string[] newPodFile = MergePodFiles(pluginPodFileContent, existingPodFileContent);
+                if (newPodFile != null && newPodFile.Length > 0)
+                {
+                    File.WriteAllLines(destPodFile, newPodFile);
+                }
+            }
+            else
+            {
+                if (!File.Exists(destPodFile))
+                {
+                    FileUtil.CopyFileOrDirectory(podfile, destPodFile);
+                    //  FileUtil.CopyFileOrDirectory(podfileLock, destPodLockfile);
+                }
             }
 
             try
@@ -86,8 +98,85 @@ namespace ScreenRecordingUnitySDK
             catch (Exception e)
             {
                 UnityEngine.Debug.LogError("Could not create a new Xcode project with CocoaPods: " +
-                                      e.Message);
+                                           e.Message);
             }
+        }
+
+        private static string[] MergePodFiles(string[] pod1Lines, string[] pod2Lines)
+        {
+            List<string> mergedLines = new List<string>();
+
+            int unityFrameWorkTargetLineNumber1 = 0;
+            int unityFrameWorkTargetLineNumber2 = 0;
+
+            unityFrameWorkTargetLineNumber1 = GetTargetLine(pod1Lines, "UnityFramework");
+            unityFrameWorkTargetLineNumber2 = GetTargetLine(pod2Lines, "UnityFramework");
+
+            for (int i = 0; i <= unityFrameWorkTargetLineNumber1; i++)
+            {
+                mergedLines.Add(pod1Lines[i]);
+            }
+
+            int index2 = unityFrameWorkTargetLineNumber2 + 1;
+            while (!pod2Lines[index2].Contains("end"))
+            {
+                mergedLines.Add(pod2Lines[index2]);
+                index2++;
+            }
+
+            int index1 = unityFrameWorkTargetLineNumber1 + 1;
+            int localIdx = index1;
+            while (pod1Lines[localIdx] != "end")
+            {
+                if (!IsTargetContainEntry(mergedLines.ToArray(), unityFrameWorkTargetLineNumber1,pod1Lines[localIdx])) 
+                {
+                    mergedLines.Add(pod1Lines[localIdx]);
+                    index1++;
+                }
+
+                localIdx++;
+            }
+
+            mergedLines.Add("end");
+            index1++;
+
+            for (int i = index2 + 1; i < pod2Lines.Length; i++)
+            {
+                mergedLines.Add(pod2Lines[i]);
+            }
+
+            for (int i = index1 + 1; i < pod1Lines.Length; i++)
+            {
+                mergedLines.Add(pod1Lines[i]);
+            }
+
+            return mergedLines.ToArray();
+        }
+
+        private static int GetTargetLine(string[] allLines, string targetName)
+        {
+            for (int i = 0; i < allLines.Length; i++)
+            {
+                if (allLines[i].Contains("target '" + targetName + "' do"))
+                {
+                    return i;
+                }
+            }
+
+            return allLines.Length - 1;
+        }
+
+        private static bool IsTargetContainEntry(string[] allLines, int index, string entryName)
+        {
+            for (int i = index; i < allLines.Length; i++)
+            {
+                if (allLines[i] == entryName)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
         }
     }
 #endif
