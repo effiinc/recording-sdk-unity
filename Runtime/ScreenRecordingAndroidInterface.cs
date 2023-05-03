@@ -12,12 +12,12 @@ namespace ScreenRecordingUnitySDK
         private static AndroidJavaObject _pluginInstance;
 
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR
-        public static void InitializeRecorder(string token, string appVersion)
+        public static void InitializeRecorder(string token, string appVersion, string userId)
         {
             _pluginInstance = new AndroidJavaObject(ACTIVITY_CLASS_NAME);
             if (_pluginInstance != null)
             {
-                _pluginInstance.Call("InitAndStartRecording", token, appVersion);
+                _pluginInstance.Call("InitAndStartRecording", token, appVersion, userId);
             }
         }
 

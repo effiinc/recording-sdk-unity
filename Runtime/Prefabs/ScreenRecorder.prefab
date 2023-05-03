@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206392c1e1a5940d6be1dc75e5037e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnable: 1
+  enableRecorder: 1
+  TOKEN: 3HDb5Di9WowKc28mT5tJoOWvsFW0BoFtwIwE
+  USER_ID: 'Unity_UserID: ad4a6f928d6b'

@@ -12,8 +12,7 @@ namespace ScreenRecordingUnitySDK
 #endif
             
 #if (UNITY_ANDROID || PLATFORM_ANDROID) && !UNITY_EDITOR 
-            ScreenRecordingAndroidInterface.InitializeRecorder(TOKEN, appVersion);
-            ScreenRecordingAndroidInterface.SetUserId(userID);
+            ScreenRecordingAndroidInterface.InitializeRecorder(TOKEN, appVersion, userID);
 #endif
         }
         
